@@ -61,6 +61,20 @@ if (!isset($_SESSION['id'])){
 
             <li><a href="user.php">Rec&eacuteption </a></li>
             <li><a href="writemessage.php">Envoi</a></li>
+			
+			<?php
+				if(isset($_SESSION['role'])){
+				
+					//if($_SESSION['role'] == 1){
+			?>
+			<li><a href="admin.php">Admin</a></li>
+			<?php
+					//}
+				}
+				
+			?>
+			
+			
           </ul>
 		  <form action="deconnexion.php" method="post" class="navbar-form navbar-right">
 						<button type="submit" class="btn btn-success disabled">Connecté!</button>
@@ -85,6 +99,99 @@ if (!isset($_SESSION['id'])){
 	<div class="container">
 		<div class="row">
 		
+		
+		<h3>Boite de r&eacuteception </h3>
+		<?php
+			
+			// Set default timezone
+			date_default_timezone_set('UTC');
+		 
+			try {
+				/**************************************
+				* Create databases and                *
+				* open connections                    *
+				**************************************/
+			 
+				// Create (connect to) SQLite database in file
+				//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+				$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
+				// Set errormode to exceptions
+				$file_db->setAttribute(PDO::ATTR_ERRMODE, 
+										PDO::ERRMODE_EXCEPTION); 
+			 
+				
+				echo "Connected successfully";
+				$userId = $_SESSION['id'];
+				$sql = "SELECT * FROM messages WHERE receiver = \"" . $userId."\"";
+				echo $sql;
+				$result = $file_db->query($sql);
+				
+				$resultArray = $result->fetchAll();
+				$nbResults =  count($resultArray);
+				
+				if ($nbResults > 0) {
+					echo "hello";
+					
+					print("
+					
+						<table class=\"table table-hover\">
+					<thead>
+					  <tr>
+						<th>Date</th>
+						<th>Expéditeur</th>
+						<th>Sujet</th>
+						<th></th>
+					  </tr>
+					</thead>
+					<tbody>");
+					
+					foreach($resultArray as $row){
+						
+						print("
+							<tr>
+							<td>".$row['sendDate']."</td>
+							<td>".$row['sender']."</td>
+							<td>".$row['subject']."</td>
+							<td>
+								<form action=\"deletemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
+									<button type=\"submit\" class=\"btn btn-danger\">Supprimer </button>
+								</form>
+								<form action=\"writemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
+									<button type=\"submit\" class=\"btn btn-info\">Répondre </button>
+								</form>
+								<form action=\"deletemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
+									<button type=\"submit\" class=\"btn btn-success\">Ouvrir </button>
+								</form>
+							</td>
+							</tr>
+						");
+					
+					}
+					  
+					  
+					print("</tbody>
+					</table>");
+					
+					
+				}
+				else{
+					print("<div class=\"alert alert-danger\" role=\"alert\">
+							<strong>Pas de messages reçus</strong>
+						</div>");
+				
+				}
+				
+
+				
+			}
+			catch(PDOException $e) {
+			// Print PDOException message
+			echo $e->getMessage();
+			}
+			
+			
+			
+		?>
 		
 			<h3>Boite de r&eacuteception </h3>
 			<table class="table table-hover">

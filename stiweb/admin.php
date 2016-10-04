@@ -2,11 +2,21 @@
 // Start the session
 session_start();
 
-// if (isset(!$_SESSION['id'])){
-	// header("location:index.php");
-	// exit;
-// }
+if (!isset($_SESSION['id'])){
 
+	header("location:index.php");
+	exit;
+}
+
+if(isset($_SESSION['role'])){
+	if($_SESSION['role'] != 1){
+		header("location:index.php");
+	}
+}
+else{
+	header("location:index.php");
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -61,7 +71,6 @@ session_start();
 
             <li><a href="user.php">Rec&eacuteption </a></li>
             <li><a href="writemessage.php">Envoi</a></li>
-			
 			<?php
 				if(isset($_SESSION['role'])){
 				
@@ -97,29 +106,82 @@ session_start();
 	<div class="container">
 		<div class="row">
 		
-		
-			<h3>Boite d'envoi </h3>
-			
-			<form>
-			  <div class="form-group">
-				<label for="exampleInputEmail1">Destinataire</label>
-				<input type="email" class="form-control" id="destinataire" placeholder="Destinataire">
-			  </div>
-			  <div class="form-group">
-				<label for="exampleInputEmail1">Sujet</label>
-				<input type="text" class="form-control" id="subject" placeholder="Sujet">
-			  </div>
-			  <div class="form-group">
-				<label for="exampleInputPassword1">Message</label>
-				<textarea class="form-control" rows="10"></textarea>
-			  </div>
-			 
-			  <button type="submit" class="btn btn-success">Submit</button>
-			</form>
+			<h3>Admin</h3>
 			
 		
 		</div>
-	
+		<div class="row ">
+			<div class="col-md-4">
+			<h3>Ajout utilisateur</h3>
+			<form action="ajoututil.php" method="post">
+			  <div class="form-group">
+				<label for="exampleInputEmail1">Username</label>
+				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+			  </div>
+			  <div class="form-group">
+				<label for="exampleInputPassword1">Password</label>
+				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+			  </div>
+
+			  <div class="form-check">
+				<label class="form-check-label">
+				  <input type="checkbox" class="form-check-input">
+				  Admin?
+				</label>
+			  </div>
+			  <div class="form-check">
+				<label class="form-check-label">
+				  <input type="checkbox" class="form-check-input" checked>
+				  Actif?
+				</label>
+			  </div>
+			  <button type="submit" class="btn btn-primary">Ajouter</button>
+			</form>
+			</div>
+			
+			<div class="col-md-4">
+			<h3>Suppression utilisateur</h3>
+			<form action="suppressionutil.php" method="post">
+			  <div class="form-group">
+				<label for="exampleInputEmail1">Username</label>
+				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+			  </div>
+			  
+			  <button type="submit" class="btn btn-danger">Supprimer</button>
+			</form>
+			</div>
+			
+			<div class="col-md-4">
+			<h3>Modification utilisateur</h3>
+			<form action="modifutil.php" method="post">
+			  <div class="form-group">
+				<label for="exampleInputEmail1">Username</label>
+				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+			  </div>
+			  <div class="form-group">
+				<label for="exampleInputPassword1">Password</label>
+				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+			  </div>
+
+			  <div class="form-check">
+				<label class="form-check-label">
+				  <input type="checkbox" class="form-check-input">
+				  Admin?
+				</label>
+			  </div>
+			  <div class="form-check">
+				<label class="form-check-label">
+				  <input type="checkbox" class="form-check-input" checked>
+				  Actif?
+				</label>
+			  </div>
+			  <button type="submit" class="btn btn-primary">Modifier</button>
+			</form>
+			</div>
+		
+		</div>
+		
+		
 	
 	
 	</div>
