@@ -59,12 +59,15 @@ session_start();
 		echo $sql;
 		$result = $file_db->query($sql);
 		
+		$resultArray = $result->fetchAll();
+		$nbResults =  count($resultArray);
 		
-		if ($result->columnCount() > 0) {
+		if ($nbResults > 0) {
 			echo "hello";
+			
 			session_unset();
-			session_destroy();
-			$_SESSION["id"] = $result->fetch()["id"]; 
+			$_SESSION['id'] = $resultArray[0]["id"]; 
+				
 			
 			echo "Session variables are set.";
 			header('Location: user.php');
