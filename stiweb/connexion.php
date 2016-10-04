@@ -1,53 +1,89 @@
 <?php
 // Start the session
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html>
 <body>
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "covoiturage";
+// Set default timezone
+  date_default_timezone_set('UTC');
+ 
+  try {
+		/**************************************
+		* Create databases and                *
+		* open connections                    *
+		**************************************/
+	 
+		// Create (connect to) SQLite database in file
+		//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+		$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
+		// Set errormode to exceptions
+		$file_db->setAttribute(PDO::ATTR_ERRMODE, 
+								PDO::ERRMODE_EXCEPTION); 
+	 
+		/**************************************
+		* Create tables                       *
+		**************************************/
+	 
+		// Create table messages
+		$file_db->exec("
+						
+						CREATE TABLE IF NOT EXISTS users (
+							id INTEGER PRIMARY KEY,
+							username TEXT,
+							password TEXT,
+							isAdmin INTEGER
+						);
+						
+						CREATE TABLE IF NOT EXISTS messages (
+							id INTEGER PRIMARY KEY, 
+							sender INTEGER NOT NULL, 
+							receiver INTEGER NOT NULL,
+							subject TEXT,
+							message TEXT, 
+							sendDate TEXT,
+							FOREIGN KEY(sender) REFERENCES users(id),
+							FOREIGN KEY(receiver) REFERENCES users(id)
+						);
+						
+						
+						
+						"); 
+		echo "Connected successfully";
+		// Set session variables
+		$email = $_POST["email"];
+		$password = $_POST["password"];
+		$sql = "SELECT id FROM users WHERE username = \"" . $email."\" AND password = \"". $password."\"";
+		echo $sql;
+		$result = $file_db->query($sql);
+		
+		
+		if ($result->columnCount() > 0) {
+			echo "hello";
+			session_unset();
+			session_destroy();
+			$_SESSION["id"] = $result->fetch()["id"]; 
+			
+			echo "Session variables are set.";
+			header('Location: user.php');
+		} else {
+			echo "0 results";
+			$_SESSION["connerror"] = true;
+			header('Location: index.php');
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-$_SESSION["connerror"] = true;
-	header('Location: index.php');
-    die("Connection failed: " . $conn->connect_error);
-	
-} 
-echo "Connected successfully";
-// Set session variables
-$email = $_POST["email"];
-$mdp = $_POST["password"];
-$sql = "SELECT UtilisateurId FROM utilisateur WHERE Email = \"" . $email."\" AND motDePasse = \"". $mdp."\"";
-echo $sql;
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-	session_unset();
-	session_destroy();
-    $_SESSION["id"] = $result->fetch_assoc()["UtilisateurId"]; 
-	
-    echo "Session variables are set.";
-	header('Location: utilisateur.php');
-} else {
-    echo "0 results";
-	$_SESSION["connerror"] = true;
-	header('Location: index.php');
-
-}
+		}
 
 
-exit();
+		exit();
+		
+	}
+	catch(PDOException $e) {
+	// Print PDOException message
+	echo $e->getMessage();
+	}
 ?>
-
-
 
 
 </body>
