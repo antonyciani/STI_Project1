@@ -102,18 +102,67 @@ if (!isset($_SESSION['id'])){
 		
 			<h3>Boite d'envoi </h3>
 			
-			<form>
+			<form action="addmessage.php" method="post">
 			  <div class="form-group">
 				<label for="exampleInputEmail1">Destinataire</label>
-				<input type="email" class="form-control" id="destinataire" placeholder="Destinataire">
+				<?php
+				
+					if(isset($_POST['senderid'])){
+					
+						try {
+							/**************************************
+							* Create databases and                *
+							* open connections                    *
+							**************************************/
+						 
+							// Create (connect to) SQLite database in file
+							//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+							$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
+							// Set errormode to exceptions
+							$file_db->setAttribute(PDO::ATTR_ERRMODE, 
+													PDO::ERRMODE_EXCEPTION); 
+						 
+							
+							echo "Connected successfully";
+
+							$sql = "SELECT username FROM users WHERE id = \"" .$_POST['senderid']."\"";
+							echo $sql;
+							$result = $file_db->query($sql);
+							
+							$resultArray = $result->fetchAll();
+							$nbResults =  count($resultArray);
+							
+							if ($nbResults > 0) {
+								echo "hello";
+												
+								foreach($resultArray as $row){
+
+									$senderName = $resultArray[0]['username'];
+									
+									print("<input type=\"email\" class=\"form-control\" name=\"destinataire\" value=\"".$senderName."\" readonly>");
+								}
+							}
+						}
+						catch(PDOException $e) {
+							// Print PDOException message
+							echo $e->getMessage();
+						}
+
+					}
+					else{
+						print("<input type=\"email\" class=\"form-control\" name=\"destinataire\" placeholder=\"Destinataire\">");
+
+					}
+				
+				?>
 			  </div>
 			  <div class="form-group">
 				<label for="exampleInputEmail1">Sujet</label>
-				<input type="text" class="form-control" id="subject" placeholder="Sujet">
+				<input type="text" class="form-control" name="subject" placeholder="Sujet">
 			  </div>
 			  <div class="form-group">
 				<label for="exampleInputPassword1">Message</label>
-				<textarea class="form-control" rows="10"></textarea>
+				<textarea class="form-control" name="message" rows="10"></textarea>
 			  </div>
 			 
 			  <button type="submit" class="btn btn-success">Submit</button>

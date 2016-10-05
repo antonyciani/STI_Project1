@@ -131,7 +131,7 @@ if (!isset($_SESSION['id'])){
 				
 				if ($nbResults > 0) {
 					echo "hello";
-					
+									
 					print("
 					
 						<table class=\"table table-hover\">
@@ -146,20 +146,33 @@ if (!isset($_SESSION['id'])){
 					<tbody>");
 					
 					foreach($resultArray as $row){
+					
+						$sql2 = "SELECT username FROM users WHERE id = \"" .$row['sender']."\"";
+						$result2 = $file_db->query($sql2);
+						$resultArray2 = $result2->fetchAll();
+						
+						$senderName = $resultArray2[0]['username'];
+						$date = new DateTime();
+						$date->setTimestamp($row['sendDate']);
+						
+						
 						
 						print("
 							<tr>
-							<td>".$row['sendDate']."</td>
-							<td>".$row['sender']."</td>
+							<td>".$date->format('d/m/Y H:i:s')."</td>
+							<td>".$senderName."</td>
 							<td>".$row['subject']."</td>
 							<td>
 								<form action=\"deletemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
 									<button type=\"submit\" class=\"btn btn-danger\">Supprimer </button>
 								</form>
 								<form action=\"writemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
+									<input type=\"hidden\" name=\"messageid\" value=\"".$row['id']."\">
+									<input type=\"hidden\" name=\"senderid\" value=\"".$row['sender']."\">
 									<button type=\"submit\" class=\"btn btn-info\">Répondre </button>
 								</form>
 								<form action=\"showmessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
+									<input type=\"hidden\" name=\"messageid\" value=\"".$row['id']."\">
 									<button type=\"submit\" class=\"btn btn-success\">Ouvrir </button>
 								</form>
 							</td>
@@ -193,73 +206,7 @@ if (!isset($_SESSION['id'])){
 			
 		?>
 		
-			<h3>Boite de r&eacuteception </h3>
-			<table class="table table-hover">
-			<thead>
-			  <tr>
-				<th>Date</th>
-				<th>Exp&eacutediteur</th>
-				<th>Sujet</th>
-				<th></th>
-			  </tr>
-			</thead>
-			<tbody>
-			  <tr>
-				<td>John</td>
-				<td>Doe</td>
-				<td>john@example.com</td>
-				<td>
-					<form action="deletemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-danger">Supprimer </button>
-					</form>
-					<form action="writemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-info">R&eacutepondre </button>
-					</form>
-					<form action="deletemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-success">Ouvrir </button>
-					</form>
-				</td>
-					
-					
-			  </tr>
-			  <tr>
-				<td>Mary</td>
-				<td>Moe</td>
-				<td>mary@example.com</td>
-				<td>
-					
-					<form action="deletemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-danger">Supprimer </button>
-					</form>
-					<form action="writemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-info">R&eacutepondre </button>
-					</form>
-					<form action="deletemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-success">Ouvrir </button>
-					</form>
-
-					
-				</td>
-			  </tr>
-			  <tr>
-				<td>July</td>
-				<td>Dooley</td>
-				<td>july@example.com</td>
-				<td>
-					<form action="deletemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-danger">Supprimer </button>
-					</form>
-					<form action="writemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-info">R&eacutepondre </button>
-					</form>
-					<form action="deletemessage.php" method="post" class="navbar-form navbar-right">
-						<button type="submit" class="btn btn-success">Ouvrir </button>
-					</form>
-					
-				</td>
-			  </tr>
-			</tbody>
-		  </table>
+			
 		
 		</div>
 	
