@@ -1,6 +1,15 @@
 <?php
 // Start the session
 session_start();
+
+if (!isset($_SESSION['id'])){
+
+	header("location:index.php");
+	exit;
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +22,7 @@ session_start();
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Covoiturage</title>
+    <title>STI-Messenger</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -46,49 +55,31 @@ session_start();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php">Covoiturage HEIG</a>
+          <a class="navbar-brand" href="index.php">STI-Messenger</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 		  <ul class="nav navbar-nav">
             <li class="active"><a href="index.php">Accueil</a></li>
+
+            <li><a href="user.php">Rec&eacuteption </a></li>
+            <li><a href="writemessage.php">Envoi</a></li>
+			<li><a href="account.php">Compte</a></li>
 			<?php
-			if(isset($_SESSION["id"])){
-				print("<li class=\" dropdown\">
-              <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Menu <span class=\"caret\"></span></a>
-              <ul class=\"dropdown-menu\">
-                <li><a href=\"utilisateur.php\">Compte</a></li>
-                <li><a href=\"recherche.php\">Recherche Trajet</a></li>
-                <li><a href=\"ajouttrajet.php\">Ajout Trajet</a></li>
-                <li><a href=\"ajoutcredit.php\">Ajout Crédits</a></li>
-                <li><a href=\"deconnexion.php\">Deconnexion</a></li>
-              </ul>
-            </li>");
-			}
+				if(isset($_SESSION['role'])){
+				
+					//if($_SESSION['role'] == 1){
 			?>
-            <li><a href="about.php">A propos</a></li>
-            <li><a href="contact.php">Contact</a></li>
+			<li><a href="admin.php">Admin</a></li>
+			<?php
+					//}
+				}
+				
+			?>
           </ul>
-		  <?php
-		  if(!isset($_SESSION["id"])){
-			  print("<form action=\"connexion.php\" method=\"post\" class=\"navbar-form navbar-right\">
-		  
-            <div class=\"form-group\">
-              <input type=\"email\" name=\"email\" placeholder=\"Email\" class=\"form-control\" required>
-            </div>
-            <div class=\"form-group\">
-              <input type=\"password\" name=\"password\" placeholder=\"Mot de passe\" class=\"form-control\" required>
-            </div>
-            <button type=\"submit\" class=\"btn btn-success\">Connexion</button>
-          </form>");
-		  }
-		  else{
-			   print("<form action=\"deconnexion.php\" method=\"post\" class=\"navbar-form navbar-right\">
-						<button type=\"submit\" class=\"btn btn-success\" disabled>Connecté!</button>
-						<button type=\"submit\" class=\"btn btn-danger\">Deconnexion</button>
-					</form>");
-		  }
-          
-		  ?>
+		  <form action="deconnexion.php" method="post" class="navbar-form navbar-right">
+						<button type="submit" class="btn btn-success disabled">Connecté!</button>
+						<button type="submit" class="btn btn-danger ">Deconnexion</button>
+		  </form>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
@@ -96,48 +87,91 @@ session_start();
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Le covoiturage, plus facile!</h1>
-        <?php
-		  if(!isset($_SESSION["id"])){
-			  print("<p><a class=\"btn btn-primary btn-lg\" href=\"inscription.php\" role=\"button\">Inscris-toi! &raquo;</a></p>");
-		  }
+        <h1>Bienvenue dans la messagerie</h1>
+        
 		 
-          
-		?>
+		 
 		
 		
       </div>
     </div>
+	
+	<div class="container">
+		<div class="row">
+		
+			<h3>Compte</h3>
+			
+		
+		</div>
+		<div class="row ">
+
+			<div class="col-md-4">
+			<h3>Modification du mot de passe</h3>
+			<form action="changepassword.php" method="post">
+			  <div class="form-group">
+				<label for="exampleInputEmail1">Ancien mot de passe</label>
+				<input type="password" class="form-control" name="oldpassword"  placeholder="Ancien mot de passe" required>
+			  </div>
+			  <div class="form-group">
+				<label for="exampleInputPassword1">Nouveau mot de passe</label>
+				<input type="password" class="form-control" name="newpassword1" placeholder="Nouveau mot de passe" required>
+			  </div>
+			  <div class="form-group">
+				<label for="exampleInputPassword1">Confirmation</label>
+				<input type="password" class="form-control" name="newpassword2" placeholder="Confirmation" required>
+			  </div>
+			  <button type="submit" class="btn btn-primary">Modifier</button>
+			</form>
+			</div>
+		
+		</div>
+		<?php
+			if(isset($_SESSION["passchangesuccess"])){
+				if($_SESSION["passchangesuccess"] == 1){
+				?>	
+					<div class="row">
+						</br>
+						<div class="alert alert-success" role="alert">
+							<strong>Mot de passe modifi&eacute avec succ&egraves! </strong>
+						</div>
+					</div>
+				<?php	
+					
+				
+				}
+				else{
+				?>
+					<div class="row">
+						</br>
+						<div class="alert alert-danger" role="alert">
+							<strong>Erreur lors du changement de mot de passe, r&eacuteessayer...!</strong>
+						</div>
+					</div>
+				
+				<?php
+				
+				}
+				
+			}
+			unset($_SESSION["passchangesuccess"]);
+		?>
+	</div>
+	
+	
+	
+	
 
     <div class="container">
-	 <div class="row">
-		<div class="col-md-6">
-		  <div class="alert alert-success" role="alert">
-				<strong>Votre trajet a bien &eacutet&eacute ajout&eacute!</strong> 
-				
-			</div>
-			
-        </div>
-	  </div>
-	  <div class="row">
-		<div class="col-md-6">
-		  <form action="ajouttrajet.php" method="post" >		
-				<button type="submit" class="btn btn-primary">Ajouter d'autres trajet &raquo</button>
-		  </form>
-        </div>
-	  </div>
-	  <hr>
-	  
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4">
-		  <img src="images/hyundai.png" class="img-responsive" alt="hyundai">
+		  <img src="images/greenbubble.png" class="img-responsive" alt="bubble">
         </div>
         <div class="col-md-4">
-		  <img src="images/audi1.png" class="img-responsive" alt="hyundai">
+		  <img src="images/greenbubble.png" class="img-responsive" alt="bubble">
         </div>
 		<div class="col-md-4">
-		  <img src="images/audi.png" class="img-responsive" alt="hyundai">
+		  <img src="images/greenbubble.png" class="img-responsive" alt="bubble">
         </div>
         
       </div>
@@ -145,7 +179,7 @@ session_start();
       <hr>
 
       <footer>
-        <p>&copy; 2015 HEIG-VD, CIANI Antony, HERNANDEZ Thomas</p>
+        <p>&copy; 2016 HEIG-VD, CIANI Antony, HERNANDEZ Thomas</p>
       </footer>
     </div> <!-- /container -->
 

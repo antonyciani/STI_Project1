@@ -71,6 +71,7 @@ else{
 
             <li><a href="user.php">Rec&eacuteption </a></li>
             <li><a href="writemessage.php">Envoi</a></li>
+			<li><a href="account.php">Compte</a></li>
 			<?php
 				if(isset($_SESSION['role'])){
 				
@@ -113,7 +114,7 @@ else{
 		<div class="row ">
 			<div class="col-md-4">
 			<h3>Ajout utilisateur</h3>
-			<form action="ajoututil.php" method="post">
+			<form action="adduser.php" method="post">
 			  <div class="form-group">
 				<label for="exampleInputEmail1">Username</label>
 				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
@@ -141,7 +142,7 @@ else{
 			
 			<div class="col-md-4">
 			<h3>Suppression utilisateur</h3>
-			<form action="suppressionutil.php" method="post">
+			<form action="deleteuser.php" method="post">
 			  <div class="form-group">
 				<label for="exampleInputEmail1">Username</label>
 				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
@@ -153,7 +154,7 @@ else{
 			
 			<div class="col-md-4">
 			<h3>Modification utilisateur</h3>
-			<form action="modifutil.php" method="post">
+			<form action="modifyuser.php" method="post">
 			  <div class="form-group">
 				<label for="exampleInputEmail1">Username</label>
 				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">

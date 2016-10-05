@@ -61,7 +61,7 @@ if (!isset($_SESSION['id'])){
 
             <li><a href="user.php">Rec&eacuteption </a></li>
             <li><a href="writemessage.php">Envoi</a></li>
-			
+			<li><a href="account.php">Compte</a></li>
 			<?php
 				if(isset($_SESSION['role'])){
 				
@@ -159,7 +159,7 @@ if (!isset($_SESSION['id'])){
 								<form action=\"writemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
 									<button type=\"submit\" class=\"btn btn-info\">Répondre </button>
 								</form>
-								<form action=\"deletemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
+								<form action=\"showmessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
 									<button type=\"submit\" class=\"btn btn-success\">Ouvrir </button>
 								</form>
 							</td>

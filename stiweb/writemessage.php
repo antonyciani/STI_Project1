@@ -2,10 +2,11 @@
 // Start the session
 session_start();
 
-// if (isset(!$_SESSION['id'])){
-	// header("location:index.php");
-	// exit;
-// }
+if (!isset($_SESSION['id'])){
+	header("location:index.php");
+	exit;
+}
+
 
 
 ?>
@@ -61,6 +62,7 @@ session_start();
 
             <li><a href="user.php">Rec&eacuteption </a></li>
             <li><a href="writemessage.php">Envoi</a></li>
+			<li><a href="account.php">Compte</a></li>
 			
 			<?php
 				if(isset($_SESSION['role'])){
@@ -123,10 +125,6 @@ session_start();
 	
 	
 	</div>
-	
-	
-	
-	
 
     <div class="container">
       <!-- Example row of columns -->

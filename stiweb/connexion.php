@@ -34,7 +34,8 @@ session_start();
 							id INTEGER PRIMARY KEY,
 							username TEXT,
 							password TEXT,
-							role INTEGER
+							role INTEGER,
+							active INTEGER
 						);
 						
 						CREATE TABLE IF NOT EXISTS messages (
@@ -55,7 +56,7 @@ session_start();
 		// Set session variables
 		$email = $_POST["email"];
 		$password = $_POST["password"];
-		$sql = "SELECT id,role FROM users WHERE username = \"" . $email."\" AND password = \"". $password."\"";
+		$sql = "SELECT id,role,active FROM users WHERE username = \"" . $email."\" AND password = \"". $password."\"";
 		echo $sql;
 		$result = $file_db->query($sql);
 		
@@ -66,12 +67,23 @@ session_start();
 			echo "hello";
 			
 			session_unset();
-			$_SESSION['id'] = $resultArray[0]["id"];
-			$_SESSION['role'] = $resultArray[0]["role"];
-				
+			if($resultArray[0]["active"] == 1){
 			
-			echo "Session variables are set.";
-			header('Location: user.php');
+				$_SESSION['id'] = $resultArray[0]["id"];
+				$_SESSION['role'] = $resultArray[0]["role"];
+					
+				
+				echo "Session variables are set.";
+				header('Location: user.php');
+			
+			}
+			else{
+				
+				$_SESSION["connerror"] = true;
+				header('Location: index.php');	
+			
+			}
+			
 		} else {
 			echo "0 results";
 			$_SESSION["connerror"] = true;
