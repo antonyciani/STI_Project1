@@ -73,7 +73,7 @@ if (!isset($_SESSION['id'])){
 				$_SESSION["passchangesuccess"] = 0;
 			
 		}
-		//header('Location: account.php');
+		header('Location: account.php');
 
 		exit();
 		

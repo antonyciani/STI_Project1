@@ -30,45 +30,17 @@ if (!isset($_SESSION['id'])){
 		
 		echo "Connected successfully";
 		// Set session variables
-		$sender = $_SESSION["id"];
-		$receiverName = $_POST["destinataire"];
-		$subject = $_POST["subject"];
-		$message = $_POST["message"];
-		$date = new DateTime();
-		
-		$sql2 = "SELECT id FROM users WHERE username = \"" .$receiverName."\"";
+
+		$messageId = $_POST["messageid"];
+
+		$sql2 = "DELETE FROM messages WHERE id = \"" .$messageId."\" AND receiver = \"" .$_SESSION['id']."\"";
 		echo $sql2;
 		$result2 = $file_db->query($sql2);
-		$resultArray2 = $result2->fetchAll();
-		$nbResults2 =  count($resultArray2);
-		
-		if($nbResults2 > 0){
-		
-			$receiverId = $resultArray2[0]['id'];
-			
-			$sql = "INSERT INTO messages VALUES (NULL, \"".$sender."\", \"".$receiverId."\",\"".$subject."\",\"".nl2br($message)."\",\"".$date->getTimestamp()."\")";
-			echo $sql;
-			$result = $file_db->query($sql);
-			
-			echo "message sent";
-			$_SESSION['messagesent'] = 1;
-			
-			header("location:writemessage.php");
-		
-		}
-		else{
-		
-			echo "user doestn exist";
-			$_SESSION['messagesent'] = 0;
-			header("location:writemessage.php");
-		
-		}
 		
 		
+		echo "Message deleted";
 		
-		
-		
-
+		header("location:user.php");
 
 		//exit();
 		

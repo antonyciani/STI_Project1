@@ -185,6 +185,12 @@ if (!isset($_SESSION['id'])){
 			</table>");
 			
 			
+			print("<form action=\"user.php\" method=\"post\" >
+					
+					<button type=\"submit\" class=\"btn btn-info\">Retour </button>
+				</form>");
+			
+			
 		}
 		else{
 			print("<div class=\"alert alert-danger\" role=\"alert\">
@@ -192,6 +198,7 @@ if (!isset($_SESSION['id'])){
 				</div>");
 		
 		}
+		
 		
 
 		

@@ -1,37 +1,40 @@
-<?php
-// Start the session
-session_start();
+		<?php
 
-if (!isset($_SESSION['id'])){
+	try {
+		/**************************************
+		* Create databases and                *
+		* open connections                    *
+		**************************************/
+	 
+		// Create (connect to) SQLite database in file
+		//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+		$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
+		// Set errormode to exceptions
+		$file_db->setAttribute(PDO::ATTR_ERRMODE, 
+								PDO::ERRMODE_EXCEPTION); 
+	 
+		
+		echo "Connected successfully";
+		
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$role = $_POST['role'];
+		$active = $_POST['active'];
 
-	header("location:index.php");
-	exit;
-}
+		$sql = "INSERT INTO users VALUES (NULL, \"".$username."\", \"".$password."\",\"".$role."\",\"".$active."\")";
+		echo $sql;
+		$result = $file_db->query($sql);
+		
+		echo "User added";
+		$_SESSION['useraddsuccess'] = 1;
+		
 
-if(isset($_SESSION['role'])){
-	if($_SESSION['role'] != 1){
-		header("location:index.php");
+		
 	}
-}
-else{
-	header("location:index.php");
+	catch(PDOException $e) {
+	// Print PDOException message
+	echo $e->getMessage();
+	}
 
-}
 
 ?>
-<!DOCTYPE html>
-<html>
-<body>
-<?php
-session_unset();
-session_destroy();
-header('Location: index.php');
-
-exit();
-?>
-
-
-
-
-</body>
-</html>

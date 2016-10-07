@@ -164,6 +164,7 @@ if (!isset($_SESSION['id'])){
 							<td>".$row['subject']."</td>
 							<td>
 								<form action=\"deletemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">
+									<input type=\"hidden\" name=\"messageid\" value=\"".$row['id']."\">
 									<button type=\"submit\" class=\"btn btn-danger\">Supprimer </button>
 								</form>
 								<form action=\"writemessage.php\" method=\"post\" class=\"navbar-form navbar-right\">

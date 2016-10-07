@@ -109,13 +109,13 @@ if (isset($_SESSION['id'])){
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4">
-		  <img src="images/greenbubble.png" class="img-responsive" alt="bubble">
+		  <img src="images/greenbubbleBa.png" class="img-responsive" alt="bubble">
         </div>
         <div class="col-md-4">
-		  <img src="images/greenbubble.png" class="img-responsive" alt="bubble">
+		  <img src="images/greenbubbleSe.png" class="img-responsive" alt="bubble">
         </div>
 		<div class="col-md-4">
-		  <img src="images/greenbubble.png" class="img-responsive" alt="bubble">
+		  <img src="images/greenbubbleHe.png" class="img-responsive" alt="bubble">
         </div>
         
       </div>
