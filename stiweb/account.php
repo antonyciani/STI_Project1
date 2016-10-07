@@ -59,11 +59,11 @@ if (!isset($_SESSION['id'])){
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 		  <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Accueil</a></li>
+            <li><a href="index.php">Accueil</a></li>
 
             <li><a href="user.php">Rec&eacuteption </a></li>
             <li><a href="writemessage.php">Envoi</a></li>
-			<li><a href="account.php">Compte</a></li>
+			<li class="active"><a href="account.php">Compte</a></li>
 			<?php
 				if(isset($_SESSION['role'])){
 				

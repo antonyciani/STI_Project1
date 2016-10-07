@@ -67,9 +67,9 @@ else{
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 		  <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Accueil</a></li>
+            <li><a href="index.php">Accueil</a></li>
 
-            <li><a href="user.php">Rec&eacuteption </a></li>
+            <li><a href="user.php">Réception </a></li>
             <li><a href="writemessage.php">Envoi</a></li>
 			<li><a href="account.php">Compte</a></li>
 			<?php
@@ -77,7 +77,7 @@ else{
 				
 					//if($_SESSION['role'] == 1){
 			?>
-			<li><a href="admin.php">Admin</a></li>
+			<li class="active"><a href="admin.php">Admin</a></li>
 			<?php
 					//}
 				}

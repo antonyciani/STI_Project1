@@ -57,9 +57,9 @@ if (!isset($_SESSION['id'])){
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 		  <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Accueil</a></li>
+            <li><a href="index.php">Accueil</a></li>
 
-            <li><a href="user.php">Rec&eacuteption </a></li>
+            <li class="active"><a href="user.php">Réception</a></li>
             <li><a href="writemessage.php">Envoi</a></li>
 			<li><a href="account.php">Compte</a></li>
 			<?php
@@ -122,7 +122,7 @@ if (!isset($_SESSION['id'])){
 				
 				echo "Connected successfully";
 				$userId = $_SESSION['id'];
-				$sql = "SELECT * FROM messages WHERE receiver = \"" . $userId."\"";
+				$sql = "SELECT * FROM messages WHERE receiver = \"" . $userId."\" ORDER BY sendDate DESC";
 				echo $sql;
 				$result = $file_db->query($sql);
 				

@@ -8,7 +8,6 @@ if (!isset($_SESSION['id'])){
 }
 
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,10 +59,9 @@ if (!isset($_SESSION['id'])){
 		  <ul class="nav navbar-nav">
             <li><a href="index.php">Accueil</a></li>
 
-            <li><a href="user.php">Rec&eacuteption </a></li>
-            <li class="active"><a href="writemessage.php">Envoi</a></li>
+            <li class="active"><a href="user.php">Réception</a></li>
+            <li><a href="writemessage.php">Envoi</a></li>
 			<li><a href="account.php">Compte</a></li>
-			
 			<?php
 				if(isset($_SESSION['role'])){
 				
@@ -75,6 +73,8 @@ if (!isset($_SESSION['id'])){
 				}
 				
 			?>
+			
+			
           </ul>
 		  <form action="deconnexion.php" method="post" class="navbar-form navbar-right">
 						<button type="submit" class="btn btn-success disabled">Connecté!</button>
@@ -100,106 +100,121 @@ if (!isset($_SESSION['id'])){
 		<div class="row">
 		
 		
-			<h3>Boite d'envoi </h3>
+		<h3>Boite de r&eacuteception </h3>
+		<?php
+
+	try {
+		/**************************************
+		* Create databases and                *
+		* open connections                    *
+		**************************************/
+	 
+		// Create (connect to) SQLite database in file
+		//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+		$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
+		// Set errormode to exceptions
+		$file_db->setAttribute(PDO::ATTR_ERRMODE, 
+								PDO::ERRMODE_EXCEPTION); 
+	 
+		
+		echo "Connected successfully";
+		$messageId = $_POST['messageid'];
+		$sql = "SELECT * FROM messages WHERE id = \"" . $messageId."\"";
+		echo $sql;
+		$result = $file_db->query($sql);
+		
+		$resultArray = $result->fetchAll();
+		$nbResults =  count($resultArray);
+		
+		if ($nbResults > 0) {
+			echo "hello";
+							
+			print("
 			
-			<form action="addmessage.php" method="post">
-			  <div class="form-group">
-				<label for="exampleInputEmail1">Destinataire</label>
-				<?php
-				
-					if(isset($_POST['senderid'])){
-					
-						try {
-							/**************************************
-							* Create databases and                *
-							* open connections                    *
-							**************************************/
-						 
-							// Create (connect to) SQLite database in file
-							//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
-							$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
-							// Set errormode to exceptions
-							$file_db->setAttribute(PDO::ATTR_ERRMODE, 
-													PDO::ERRMODE_EXCEPTION); 
-						 
-							
-							echo "Connected successfully";
+				<table class=\"table table-hover\">
+			<thead>
+			  <tr>
+				<th>Date</th>
+				<th>Expéditeur</th>
+				<th>Sujet</th>
+				<th></th>
+			  </tr>
+			</thead>
+			<tbody>");
+			
+			$row = $resultArray[0];
+			
+			$sql2 = "SELECT username FROM users WHERE id = \"" .$row['sender']."\"";
+			$result2 = $file_db->query($sql2);
+			$resultArray2 = $result2->fetchAll();
+			
+			$senderName = $resultArray2[0]['username'];
+			$date = new DateTime();
+			$date->setTimestamp($row['sendDate']);
+			$message = $row['message'];
+			
+			
+			
+			print("
+				<tr>
+				<td>".$date->format('d/m/Y H:i:s')."</td>
+				<td>".$senderName."</td>
+				<td>".$row['subject']."</td>
+				</tr>
+				</tbody>
+			</table>
+			
+			<table class=\"table table-hover\">
+				<thead>
+					<tr>
+					<th>Message</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+					<td>".$message."</td>
+					</tr>
+				</tbody>
+			</table>
+			");
+		
+		
+		  
+			  
+			print("</tbody>
+			</table>");
+			
+			
+		}
+		else{
+			print("<div class=\"alert alert-danger\" role=\"alert\">
+					<strong>Oops, le message n'existe pas!</strong>
+				</div>");
+		
+		}
+		
 
-							$sql = "SELECT username FROM users WHERE id = \"" .$_POST['senderid']."\"";
-							echo $sql;
-							$result = $file_db->query($sql);
-							
-							$resultArray = $result->fetchAll();
-							$nbResults =  count($resultArray);
-							
-							if ($nbResults > 0) {
-								echo "hello";
-												
-								foreach($resultArray as $row){
+		
+	}
+	catch(PDOException $e) {
+	// Print PDOException message
+	echo $e->getMessage();
+	}
 
-									$senderName = $resultArray[0]['username'];
-									
-									print("<input type=\"email\" class=\"form-control\" name=\"destinataire\" value=\"".$senderName."\" readonly>");
 
-								}
-							}
-						}
-						catch(PDOException $e) {
-							// Print PDOException message
-							echo $e->getMessage();
-						}
-
-					}
-					else{
-						print("<input type=\"email\" class=\"form-control\" name=\"destinataire\" placeholder=\"Destinataire\">");
-
-					}
-				
-				?>
-			  </div>
-			  <div class="form-group">
-				<label for="exampleInputEmail1">Sujet</label>
-				<input type="text" class="form-control" name="subject" placeholder="Sujet">
-			  </div>
-			  <div class="form-group">
-				<label for="exampleInputPassword1">Message</label>
-				<textarea class="form-control" name="message" rows="10"></textarea>
-			  </div>
-			  <button type="submit" class="btn btn-success">Envoyer</button>
-			</form>
+?>
+		
 			
 		
 		</div>
-		
-		<?php
-			if(isset($_SESSION['messagesent'])){
-			
-				if($_SESSION['messagesent'] == 1){
-					
-					print("
-						</br>
-						<div class=\"alert alert-success\" role=\"alert\">
-							<strong>Message envoyé avec succès</strong>
-						</div>");
-				
-				}
-				else{
-					print("
-						</br>
-						<div class=\"alert alert-danger\" role=\"alert\">
-							<strong>Erreur d'envoi, destinataire inconnu</strong>
-						</div>");
-				
-				}
-				unset($_SESSION['messagesent']);
-			
-			}
-		?>
-		
 	
 	
 	
 	</div>
+	
+	
+	
+	
 
     <div class="container">
       <!-- Example row of columns -->

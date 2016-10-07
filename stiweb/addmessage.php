@@ -31,14 +31,41 @@ if (!isset($_SESSION['id'])){
 		echo "Connected successfully";
 		// Set session variables
 		$sender = $_SESSION["id"];
-		$receiver = $_POST["destinataire"];
+		$receiverName = $_POST["destinataire"];
 		$subject = $_POST["subject"];
 		$message = $_POST["message"];
 		$date = new DateTime();
 		
-		$sql = "INSERT INTO messages VALUES (NULL, \"".$sender."\", \"".$receiver."\",\"".$subject."\",\"".$message."\",\"".$date->getTimestamp()."\")";
-		echo $sql;
-		$result = $file_db->query($sql);
+		$sql2 = "SELECT id FROM users WHERE username = \"" .$receiverName."\"";
+		echo $sql2;
+		$result2 = $file_db->query($sql2);
+		$resultArray2 = $result2->fetchAll();
+		$nbResults2 =  count($resultArray2);
+		
+		if($nbResults2 > 0){
+		
+			$receiverId = $resultArray2[0]['id'];
+			
+			$sql = "INSERT INTO messages VALUES (NULL, \"".$sender."\", \"".$receiverId."\",\"".$subject."\",\"".nl2br($message)."\",\"".$date->getTimestamp()."\")";
+			echo $sql;
+			$result = $file_db->query($sql);
+			
+			echo "message sent";
+			$_SESSION['messagesent'] = 1;
+			
+			header("location:writemessage.php");
+		
+		}
+		else{
+		
+			echo "user doestn exist";
+			$_SESSION['messagesent'] = 0;
+			header("location:writemessage.php");
+		
+		}
+		
+		
+		
 		
 		
 
