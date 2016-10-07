@@ -75,11 +75,11 @@ else{
 			<?php
 				if(isset($_SESSION['role'])){
 				
-					//if($_SESSION['role'] == 1){
+					if($_SESSION['role'] == 1){
 			?>
 			<li class="active"><a href="admin.php">Admin</a></li>
 			<?php
-					//}
+					}
 				}
 				
 			?>
@@ -138,14 +138,83 @@ else{
 			  </div>
 			  <button type="submit" class="btn btn-primary">Ajouter</button>
 			</form>
+			<?php
+			if(isset($_SESSION["useraddsuccess"])){
+				if($_SESSION["useraddsuccess"] == 1){
+			?>	
+					<div class="row">
+						</br>
+						<div class="alert alert-success" role="alert">
+							<strong>Utilisateur ajouté! </strong>
+						</div>
+					</div>
+			<?php
+				}
+			}
+			unset($_SESSION["useraddsuccess"]);
+			?>
 			</div>
+			
+			
+			<?php
+// Set default timezone
+  date_default_timezone_set('UTC');
+ 
+  try {
+		/**************************************
+		* Create databases and                *
+		* open connections                    *
+		**************************************/
+	 
+		// Create (connect to) SQLite database in file
+		//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+		$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
+		// Set errormode to exceptions
+		$file_db->setAttribute(PDO::ATTR_ERRMODE, 
+								PDO::ERRMODE_EXCEPTION); 
+	 
+		
+		echo "Connected successfully";
+		
+				
+		$sql = "SELECT username FROM users";
+		
+		
+		
+		echo $sql;
+		$result = $file_db->query($sql);
+		$resultArray = $result->fetchAll();
+		$nbResults =  count($resultArray);
+		
+		$usernameSelectOptions = "";
+		
+		foreach($resultArray as $row){
+		
+			$usernameSelectOptions .= "<option>";
+			$usernameSelectOptions .= $row['username'];
+			$usernameSelectOptions .= "</option>";
+		
+		}
+		
+		
+		
+	}
+	catch(PDOException $e) {
+	// Print PDOException message
+	echo $e->getMessage();
+	}
+?>
+			
+			
 			
 			<div class="col-md-4">
 			<h3>Suppression utilisateur</h3>
 			<form action="deleteuser.php" method="post">
 			  <div class="form-group">
-				<label for="exampleInputEmail1">Username</label>
-				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+				<label for="exampleSelect1">Username</label>
+				<select class="form-control" id="exampleSelect1">
+				  <?php print($usernameSelectOptions); ?>
+				</select>
 			  </div>
 			  
 			  <button type="submit" class="btn btn-danger">Supprimer</button>
@@ -156,8 +225,10 @@ else{
 			<h3>Modification utilisateur</h3>
 			<form action="modifyuser.php" method="post">
 			  <div class="form-group">
-				<label for="exampleInputEmail1">Username</label>
-				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+				<label for="exampleSelect1">Username</label>
+				<select class="form-control" id="exampleSelect1">
+				  <?php print($usernameSelectOptions); ?>
+				</select>
 			  </div>
 			  <div class="form-group">
 				<label for="exampleInputPassword1">Password</label>

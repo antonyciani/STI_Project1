@@ -63,12 +63,6 @@ if (!isset($_SESSION['id'])){
 			header("location:writemessage.php");
 		
 		}
-		
-		
-		
-		
-		
-
 
 		//exit();
 		

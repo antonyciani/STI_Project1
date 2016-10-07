@@ -65,11 +65,11 @@ if (!isset($_SESSION['id'])){
 			<?php
 				if(isset($_SESSION['role'])){
 				
-					//if($_SESSION['role'] == 1){
+					if($_SESSION['role'] == 1){
 			?>
 			<li><a href="admin.php">Admin</a></li>
 			<?php
-					//}
+					}
 				}
 				
 			?>
