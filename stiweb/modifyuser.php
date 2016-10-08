@@ -42,10 +42,21 @@ else{
 		
 		echo "Connected successfully";
 		
-		$userName = $_POST["username"];
+		$userName = $_POST['username'];
 		$newPassword = $_POST['password'];
-		$role = $_POST['role'];
-		$active = $_POST['active'];
+		
+		$role = 0;
+		$active = 1;
+		
+		if(isset($_POST['role'])){
+		
+			$role = 1;
+		}
+		
+		if(isset($_POST['active'])){
+		
+			$active = 1;
+		}
 		
 		$sql = "SELECT id FROM users WHERE username = \"" . $userName."\"";
 		
@@ -56,31 +67,19 @@ else{
 		
 		if ($nbResults > 0) {
 			
-			$password = $resultArray[0]["password"];
-			
-			if($oldPassword == $password && $newPassword == $confirmation){
-			
-				$sql2 = "UPDATE users SET password = \"" . $newPassword."\" WHERE id = \"" . $userId."\"";
-				echo $sql2;
-				$result = $file_db->query($sql2);
-				$_SESSION["passchangesuccess"] = 1;
+			$userId = $resultArray[0]['id'];
 				
-			}
-			else{
+			$sql2 = "UPDATE users SET password = \"" . $newPassword."\", role = \"" . $role."\", active = \"" . $active."\"   WHERE id = \"" . $userId."\"";
+			echo $sql2;
+			$result = $file_db->query($sql2);
+			$_SESSION["modusersuccess"] = 1;
 			
-				$_SESSION["passchangesuccess"] = 0;
-			
-			}
-
 		}
 		else{
-			
-				$_SESSION["passchangesuccess"] = 0;
-			
+			$_SESSION["modusersuccess"] = 0;
 		}
-		header('Location: account.php');
 
-		exit();
+		header("location:admin.php");
 		
 	}
 	catch(PDOException $e) {

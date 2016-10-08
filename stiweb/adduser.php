@@ -44,7 +44,7 @@ else{
 		$password = $_POST['password'];
 		
 		$role = 0;
-		$active = 1;
+		$active = 0;
 		
 		if(isset($_POST['role'])){
 		

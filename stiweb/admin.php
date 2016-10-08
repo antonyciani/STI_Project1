@@ -97,10 +97,6 @@ else{
       <div class="container">
         <h1>Bienvenue dans la messagerie</h1>
         
-		 
-		 
-		
-		
       </div>
     </div>
 	
@@ -212,13 +208,28 @@ else{
 			<form action="deleteuser.php" method="post">
 			  <div class="form-group">
 				<label for="exampleSelect1">Username</label>
-				<select class="form-control" id="exampleSelect1">
+				<select name="username" class="form-control" id="exampleSelect1">
 				  <?php print($usernameSelectOptions); ?>
 				</select>
 			  </div>
 			  
 			  <button type="submit" class="btn btn-danger">Supprimer</button>
 			</form>
+			<?php
+			if(isset($_SESSION["delusersuccess"])){
+				if($_SESSION["delusersuccess"] == 1){
+			?>	
+					<div class="row">
+						</br>
+						<div class="alert alert-danger" role="alert">
+							<strong>Suppression réussie! </strong>
+						</div>
+					</div>
+			<?php
+				}
+			}
+			unset($_SESSION["delusersuccess"]);
+			?>
 			</div>
 			
 			<div class="col-md-4">
@@ -226,29 +237,47 @@ else{
 			<form action="modifyuser.php" method="post">
 			  <div class="form-group">
 				<label for="exampleSelect1">Username</label>
-				<select class="form-control" id="exampleSelect1">
+				<select name="username" class="form-control" id="exampleSelect1">
 				  <?php print($usernameSelectOptions); ?>
 				</select>
 			  </div>
 			  <div class="form-group">
 				<label for="exampleInputPassword1">Password</label>
-				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				<input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
 			  </div>
 
 			  <div class="form-check">
 				<label class="form-check-label">
-				  <input type="checkbox" class="form-check-input">
+				  <input name="role" type="checkbox" class="form-check-input">
 				  Admin?
 				</label>
 			  </div>
 			  <div class="form-check">
 				<label class="form-check-label">
-				  <input type="checkbox" class="form-check-input" checked>
+				  <input name="active" type="checkbox" class="form-check-input" checked>
 				  Actif?
 				</label>
 			  </div>
 			  <button type="submit" class="btn btn-primary">Modifier</button>
 			</form>
+			<?php
+			if(isset($_SESSION["modusersuccess"])){
+				if($_SESSION["modusersuccess"] == 1){
+			?>	
+					<div class="row">
+						</br>
+						<div class="alert alert-success" role="alert">
+							<strong>Modification réussie! </strong>
+						</div>
+					</div>
+			<?php
+				}
+			}
+			unset($_SESSION["modusersuccess"]);
+			?>
+			</div>
+			
+			
 			</div>
 		
 		</div>

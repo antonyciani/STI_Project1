@@ -8,13 +8,25 @@ if (!isset($_SESSION['id'])){
 	exit;
 }
 
+if(isset($_SESSION['role'])){
+	if($_SESSION['role'] != 1){
+		header("location:index.php");
+	}
+}
+else{
+	header("location:index.php");
+
+}
+
 ?>
 <!DOCTYPE html>
 <html>
 <body>
 <?php
-
-	try {
+// Set default timezone
+  date_default_timezone_set('UTC');
+ 
+  try {
 		/**************************************
 		* Create databases and                *
 		* open connections                    *
@@ -29,57 +41,37 @@ if (!isset($_SESSION['id'])){
 	 
 		
 		echo "Connected successfully";
-		// Set session variables
-		$sender = $_SESSION["id"];
-		$receiverName = $_POST["destinataire"];
-		$subject = $_POST["subject"];
-		$message = $_POST["message"];
-		$date = new DateTime();
 		
-		$sql2 = "SELECT id FROM users WHERE username = \"" .$receiverName."\"";
-		echo $sql2;
-		$result2 = $file_db->query($sql2);
-		$resultArray2 = $result2->fetchAll();
-		$nbResults2 =  count($resultArray2);
+		$userName = $_POST['username'];
 		
-		if($nbResults2 > 0){
+		$sql = "SELECT id FROM users WHERE username = \"" . $userName."\"";
 		
-			$receiverId = $resultArray2[0]['id'];
+		echo $sql;
+		$result = $file_db->query($sql);
+		$resultArray = $result->fetchAll();
+		$nbResults =  count($resultArray);
+		
+		if ($nbResults > 0) {
 			
-			$sql = "INSERT INTO messages VALUES (NULL, \"".$sender."\", \"".$receiverId."\",\"".$subject."\",\"".nl2br($message)."\",\"".$date->getTimestamp()."\")";
-			echo $sql;
-			$result = $file_db->query($sql);
+			$userId = $resultArray[0]['id'];
+				
+			$sql2 = "DELETE FROM users WHERE id = \"" . $userId."\"";
+			echo $sql2;
+			$result = $file_db->query($sql2);
+			$_SESSION["delusersuccess"] = 1;
 			
-			echo "message sent";
-			$_SESSION['messagesent'] = 1;
-			
-			header("location:writemessage.php");
-		
 		}
 		else{
-		
-			echo "user doestn exist";
-			$_SESSION['messagesent'] = 0;
-			header("location:writemessage.php");
-		
+			$_SESSION["delusersuccess"] = 0;
 		}
-		
-		
-		
-		
-		
 
-
-		//exit();
+		header("location:admin.php");
 		
 	}
 	catch(PDOException $e) {
-		// Print PDOException message
-		echo $e->getMessage();
+	// Print PDOException message
+	echo $e->getMessage();
 	}
-	
-	
-	
 ?>
 
 
