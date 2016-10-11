@@ -200,7 +200,7 @@ if (!isset($_SESSION['id'])){
 							echo $e->getMessage();
 							}
 
-						print("<select name=\"username\" class=\"form-control\" id=\"exampleSelect1\">
+						print("<select name=\"destinataire\" class=\"form-control\" id=\"exampleSelect1\">
 							  .$usernameSelectOptions.
 							</select>");
 
