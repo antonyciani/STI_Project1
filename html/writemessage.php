@@ -7,8 +7,6 @@ if (!isset($_SESSION['id'])){
 	exit;
 }
 
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,30 +102,24 @@ if (!isset($_SESSION['id'])){
 			
 			<form action="addmessage.php" method="post">
 			  <div class="form-group">
-				<label for="exampleInputEmail1">Destinataire</label>
+				<label>Destinataire</label>
 				<?php
 					// Set default timezone
   					date_default_timezone_set('UTC');
 					if(isset($_POST['senderid'])){
 					
 						try {
-							/**************************************
-							* Create databases and                *
-							* open connections                    *
-							**************************************/
-						 
-							// Create (connect to) SQLite database in file
-							//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+							
 							$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
 							// Set errormode to exceptions
 							$file_db->setAttribute(PDO::ATTR_ERRMODE, 
 													PDO::ERRMODE_EXCEPTION); 
 						 
 							
-							echo "Connected successfully";
+							//echo "Connected successfully";
 
 							$sql = "SELECT username FROM users WHERE id = \"" .$_POST['senderid']."\"";
-							echo $sql;
+							//echo $sql;
 							$result = $file_db->query($sql);
 							
 							$resultArray = $result->fetchAll();
@@ -157,13 +149,7 @@ if (!isset($_SESSION['id'])){
 						  date_default_timezone_set('UTC');
 						 
 						  try {
-								/**************************************
-								* Create databases and                *
-								* open connections                    *
-								**************************************/
-							 
-								// Create (connect to) SQLite database in file
-								//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+								
 								$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
 								// Set errormode to exceptions
 								$file_db->setAttribute(PDO::ATTR_ERRMODE, 
@@ -209,11 +195,11 @@ if (!isset($_SESSION['id'])){
 				?>
 			  </div>
 			  <div class="form-group">
-				<label for="exampleInputEmail1">Sujet</label>
+				<label>Sujet</label>
 				<input type="text" class="form-control" name="subject" placeholder="Sujet">
 			  </div>
 			  <div class="form-group">
-				<label for="exampleInputPassword1">Message</label>
+				<label>Message</label>
 				<textarea class="form-control" name="message" rows="10"></textarea>
 			  </div>
 			  <button type="submit" class="btn btn-success">Envoyer</button>

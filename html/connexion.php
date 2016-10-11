@@ -11,47 +11,13 @@ session_start();
   date_default_timezone_set('UTC');
  
   try {
-		/**************************************
-		* Create databases and                *
-		* open connections                    *
-		**************************************/
-	 
-		// Create (connect to) SQLite database in file
-		//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+		
 		$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
 		// Set errormode to exceptions
 		$file_db->setAttribute(PDO::ATTR_ERRMODE, 
 								PDO::ERRMODE_EXCEPTION); 
 	 
-		/**************************************
-		* Create tables                       *
-		**************************************/
-	 
-		// Create table messages
-		$file_db->exec("
-						
-						CREATE TABLE IF NOT EXISTS users (
-							id INTEGER PRIMARY KEY,
-							username TEXT,
-							password TEXT,
-							role INTEGER,
-							active INTEGER
-						);
-						
-						CREATE TABLE IF NOT EXISTS messages (
-							id INTEGER PRIMARY KEY, 
-							sender INTEGER NOT NULL, 
-							receiver INTEGER NOT NULL,
-							subject TEXT,
-							message TEXT, 
-							sendDate TEXT,
-							FOREIGN KEY(sender) REFERENCES users(id),
-							FOREIGN KEY(receiver) REFERENCES users(id)
-						);
-						
-						
-						
-						"); 
+		
 		echo "Connected successfully";
 		// Set session variables
 		$email = $_POST["email"];
@@ -92,8 +58,6 @@ session_start();
 		}
 
 
-		exit();
-		
 	}
 	catch(PDOException $e) {
 	// Print PDOException message

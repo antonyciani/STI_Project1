@@ -19,13 +19,7 @@ if (!isset($_SESSION['id'])){
   	date_default_timezone_set('UTC');
 
 	try {
-		/**************************************
-		* Create databases and                *
-		* open connections                    *
-		**************************************/
-	 
-		// Create (connect to) SQLite database in file
-		//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+		
 		$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
 		// Set errormode to exceptions
 		$file_db->setAttribute(PDO::ATTR_ERRMODE, 
@@ -67,8 +61,6 @@ if (!isset($_SESSION['id'])){
 			header("location:writemessage.php");
 		
 		}
-
-		//exit();
 		
 	}
 	catch(PDOException $e) {

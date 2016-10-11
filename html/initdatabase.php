@@ -10,13 +10,7 @@ ajout de donnees de test.
   date_default_timezone_set('UTC');
  
   try {
-		/**************************************
-		* Create databases and                *
-		* open connections                    *
-		**************************************/
-	 
-		// Create (connect to) SQLite database in file
-		//$file_db = new PDO('sqlite:/var/www/databases/database.sqlite');
+		
 		$file_db = new PDO('sqlite:../databases/messengerDatabase.sqlite');
 		// Set errormode to exceptions
 		$file_db->setAttribute(PDO::ATTR_ERRMODE, 
@@ -26,7 +20,6 @@ ajout de donnees de test.
 		* Create tables                       *
 		**************************************/
 	 
-		// Create table messages
 		$file_db->exec("
 						DROP TABLE IF EXISTS users;
 						DROP TABLE IF EXISTS messages;
@@ -60,9 +53,7 @@ ajout de donnees de test.
 		/**************************************
 		* Set initial data                    *
 		**************************************/
-		 
-
-		// Array with some test data to insert to database             
+          
 		$users = array(
 				  array(
 					'username' => 'admin@sti.ch',
@@ -94,8 +85,7 @@ ajout de donnees de test.
 			$file_db->exec($sql);
 		}
 		echo "Initial data has been set";
-
-		// Array with some test data to insert to database             
+   
 		$messages = array(
 				  array('sender' => '1',
 					'receiver' => '2',

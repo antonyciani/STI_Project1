@@ -120,18 +120,17 @@ if (!isset($_SESSION['id'])){
 										PDO::ERRMODE_EXCEPTION); 
 			 
 				
-				echo "Connected successfully";
+				//echo "Connected successfully";
 				$userId = $_SESSION['id'];
 				$sql = "SELECT * FROM messages WHERE receiver = \"" . $userId."\" ORDER BY sendDate DESC";
-				echo $sql;
+				//echo $sql;
 				$result = $file_db->query($sql);
 				
 				$resultArray = $result->fetchAll();
 				$nbResults =  count($resultArray);
 				
 				if ($nbResults > 0) {
-					echo "hello";
-									
+														
 					print("
 					
 						<table class=\"table table-hover\">
