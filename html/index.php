@@ -95,7 +95,7 @@ if (isset($_SESSION['id'])){
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Veuillez vous logguer pour acc&eacuteder à la messagerie</h1>
+        <h1>Veuillez vous loguer pour acc&eacuteder à la messagerie</h1>
         
 		<!-- <p><a class="btn btn-primary btn-lg" href="inscription.php" role="button">Inscris-toi! &raquo;</a></p> -->
 		 

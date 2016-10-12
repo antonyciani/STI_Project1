@@ -112,12 +112,12 @@ else{
 			<h3>Ajout utilisateur</h3>
 			<form action="adduser.php" method="post">
 			  <div class="form-group">
-				<label for="exampleInputEmail1">Username</label>
-				<input type="email" class="form-control" name="username" placeholder="Enter email">
+				<label>Username</label>
+				<input type="email" class="form-control" name="username" placeholder="Email">
 			  </div>
 			  <div class="form-group">
-				<label for="exampleInputPassword1">Password</label>
-				<input type="password" class="form-control" name="password" placeholder="Password">
+				<label>Mot de passe</label>
+				<input type="password" class="form-control" name="password" placeholder="Mot de passe">
 			  </div>
 
 			  <div class="form-check">
@@ -232,8 +232,8 @@ else{
 				</select>
 			  </div>
 			  <div class="form-group">
-				<label for="exampleInputPassword1">Password</label>
-				<input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				<label >Mot de passe</label>
+				<input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
 			  </div>
 
 			  <div class="form-check">

@@ -156,14 +156,14 @@ if (!isset($_SESSION['id'])){
 														PDO::ERRMODE_EXCEPTION); 
 							 
 		
-								echo "Connected successfully";
+								//echo "Connected successfully";
 		
 				
 								$sql = "SELECT username FROM users";
 		
 		
 		
-								echo $sql;
+								//echo $sql;
 								$result = $file_db->query($sql);
 								$resultArray = $result->fetchAll();
 								$nbResults =  count($resultArray);
